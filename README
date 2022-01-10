@@ -1,0 +1,31 @@
+Grosu Ioana Alexandra, 335CC
+
+Pentru rezolvarea acestei teme am gandit programul ca fiind un aparat format
+din 6 stari, plus starea INITIAL. Astfel :
+    -> INITIAL:     initializeaza numarul de taburi si cauta prima aparitie a 
+                cuvantului "Object" pentru a incepe prelucrarea
+    -> OBJECT:      initializeaza contorii, afiseaza numarul de taburi aferente
+                obiectului curent, gaseste numele obiectului (pe care il afiseaza)
+                si apoi asteapta intalnirea string-ului "vertexes" pentru a trece
+                in starea VERTEXES
+    -> VERTEXES:    numara vertexii existenti, iar in momentul regasirii string-ului
+                "texture" sau "faces" afiseaza acest numar si trece in starea
+                aferenta string-ului gasit
+    -> TEXTURE:     ignora orice caracter intalneste pana la regasirea sirului
+                "faces", moment in care trece in starea aferenta
+    -> FACES:       numara cate fete are obiectul curent. In momentul in care 
+                intalneste string-ul "img", string-ul "Object" sau caracterul "}"
+                afiseaza acest numar si trece in starea aferenta fiecarui caz:
+                In cazul "img" trece in starea IMAGE, in cazul "Object" indica
+                faptul ca nu exista textura, incrementeaza numarul de taburi 
+                (deoarece inseamna ca este un obiect in interiorul obiectului
+                curent) si trece in starea OBJECT, iar in cazul "}" indica 
+                faptul ca nu exista textura si trece in starea END.
+    -> IMAGE:       cand intalneste numele texturii il afiseaza iar mai apoi
+                asteapta aparitia unuia din string-urile "Object" sau "}", care
+                au aceeasi specificatie cu cea explicata mai sus (doar ca fara
+                afisarea legata de inexistenta texturii).
+    -> END:         daca intalneste un alt sfarsit de obiect ("}") atunci 
+                decrementeaza numarul de taburi, iar daca intalneste cuvantul   
+                "Object" intra in starea OBJECT
+Orice alte caractere vor fi ignorate de catre toate starile prezentate.
