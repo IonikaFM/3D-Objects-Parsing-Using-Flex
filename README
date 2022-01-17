@@ -2,30 +2,39 @@ Grosu Ioana Alexandra, 335CC
 
 Pentru rezolvarea acestei teme am gandit programul ca fiind un aparat format
 din 6 stari, plus starea INITIAL. Astfel :
+
     -> INITIAL:     initializeaza numarul de taburi si cauta prima aparitie a 
                 cuvantului "Object" pentru a incepe prelucrarea
     -> OBJECT:      initializeaza contorii, afiseaza numarul de taburi aferente
                 obiectului curent, gaseste numele obiectului (pe care il afiseaza)
-                si apoi asteapta intalnirea string-ului "vertexes" pentru a trece
-                in starea VERTEXES
-    -> VERTEXES:    numara vertexii existenti, iar in momentul regasirii string-ului
-                "texture" sau "faces" afiseaza acest numar si trece in starea
-                aferenta string-ului gasit
-    -> TEXTURE:     ignora orice caracter intalneste pana la regasirea sirului
-                "faces", moment in care trece in starea aferenta
-    -> FACES:       numara cate fete are obiectul curent. In momentul in care 
-                intalneste string-ul "img", string-ul "Object" sau caracterul "}"
-                afiseaza acest numar si trece in starea aferenta fiecarui caz:
-                In cazul "img" trece in starea IMAGE, in cazul "Object" indica
-                faptul ca nu exista textura, incrementeaza numarul de taburi 
-                (deoarece inseamna ca este un obiect in interiorul obiectului
-                curent) si trece in starea OBJECT, iar in cazul "}" indica 
-                faptul ca nu exista textura si trece in starea END.
-    -> IMAGE:       cand intalneste numele texturii il afiseaza iar mai apoi
-                asteapta aparitia unuia din string-urile "Object" sau "}", care
-                au aceeasi specificatie cu cea explicata mai sus (doar ca fara
-                afisarea legata de inexistenta texturii).
-    -> END:         daca intalneste un alt sfarsit de obiect ("}") atunci 
-                decrementeaza numarul de taburi, iar daca intalneste cuvantul   
-                "Object" intra in starea OBJECT
-Orice alte caractere vor fi ignorate de catre toate starile prezentate.
+                si apoi asteapta intalnirea unuia dintre string-urile "vertexes",
+                "faces", "img" sau "texture" pentru a trece in starea aferenta.
+                Acest lucru se intampla deoarece cele 4 stari mai sus mentionate
+                pot aparea in orice ordine.
+    -> END:         In aceasta stare se ajunge din una dintre cele 4 stari
+                intermediare (VERTEXES, TEXTURE, FACES si IMAGE) prin intalnirea
+                caracterului "}". Daca starea END intalneste un alt sfarsit de 
+                obiect ("}") atunci decrementeaza numarul de taburi, iar daca 
+                intalneste cuvantul "Object" intra in starea OBJECT
+
+    Cele 4 stari intermediare (VERTEXES, TEXTURE, FACES si IMAGE) pot aparea in 
+fisierul de intrare in orice ordine, motiv pentru care din OBJECT se poate trece
+in oricare dintre ele, ele pot de asemenea sa treaca in oricare alta, si in plus
+toate vor ajunge in starea END. Mai jos voi explica doar ce ofera in plus fiecare
+stare in parte:
+
+    -> VERTEXES:    numara vertexii existenti si ii afiseaza cand trece in alta
+                stare
+    -> TEXTURE:     ignora orice caracter intalneste pana la regasirea unui
+                string corespunzator altei stari, in care va urma sa mearga 
+    -> FACES:       numara cate fete are obiectul curent si afiseaza acest numar
+                cand va trece intr-o alta stare
+    -> IMAGE:       daca se ajunge in aceasta stare se asteapta regasirea numelui
+                texturii, pe care ulterior il afiseaza si apoi se trece intr-o
+                stare urmatoare. In schimb, daca nu se va ajunge niciodata in 
+                starea IMAGE iar din starile VERTEXES sau FACES trec direct in
+                starea END, inseamna ca obiectul curent nu are textura iar
+                boolean-ul texture_exists utilizat va avea valoarea fals. Asadar,
+                inainte sa trec din starile VERTEXES sau FACES in starea END 
+                verific daca acest boolean are valoarea false, caz in care afisez
+                faptul ca obiectul nu are textura.
